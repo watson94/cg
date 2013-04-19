@@ -13,7 +13,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARYDIR})
 
 set(SOURCES
-   orientation.cpp
+  # orientation.cpp
    has_intersection.cpp
    contains.cpp
    convex_hull.cpp
