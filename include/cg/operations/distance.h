@@ -29,7 +29,7 @@ namespace cg
         double d1 = distance2(p, q);
         double d2 = distance2(p1, q1);
         double eps = (d1 + d2) * std::numeric_limits<double>::epsilon() * 16;
-        if (abs(d1 - d2) <= eps)
+        if (abs(d1 - d2) > eps)
             return d1 < d2;
         interval d1_in(abs(distance2<interval>(p, q)));
         interval d2_in(abs(distance2<interval>(p1, q1)));
