@@ -14,7 +14,8 @@ link_directories(${Boost_LIBRARYDIR})
 
 set(SOURCES
    #orientation.cpp
-   Douglas-Peucher.cpp
+   #Douglas-Peucher.cpp
+   polygon_diameter.cpp
    #has_intersection.cpp
    #contains.cpp
    #convex_hull.cpp
