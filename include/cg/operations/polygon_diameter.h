@@ -14,29 +14,15 @@
 
 namespace cg {
 
+
+    //function for debug
     double max_distance2_point_to_segment(point_2 const & p, segment_2 const & seg) {
         return std::max(distance2(p, seg[0]), distance2(p, seg[1]));
     }
 
     template <class BidIter>
     std::pair<BidIter, BidIter> polygon_diameter(BidIter  begin, BidIter end) {
-        //std::cout << *begin << std::endl << *end << std::endl;
-        //typedef typename BidIter::value_type::value_type Scalar;
-        //std::vector<point_2> pts(begin, end);
-        std::cout << "All points:" << std::endl;
-        for (BidIter i = begin; i != end; i++) {
-            std::cout << *i << " ";
-        }
-        std::cout << std::endl;
-
-
         end = andrew_hull(begin , end);
-
-        std::cout << "Convex hull:" << std::endl;
-        for (BidIter i = begin; i != end; i++) {
-            std::cout << *i << " ";
-        }
-        std::cout << std::endl;
 
         if ( std::distance(begin, end) <= 1) {
             std::pair<BidIter, BidIter> ans(begin, begin);
@@ -53,26 +39,18 @@ namespace cg {
             return exactly_closer_to_segment(p, q, seg);
         });
 
-        std::cout << "t: " << *t << std::endl;
-
         std::pair<BidIter, BidIter> ans(begin, t);
-        //double max_dist = -1;
 
         for (BidIter i = begin + 1; i != end; i++) {
-            //std::cout << "Max dist:"  << max_dist << std::endl;
-            std::cout << "Answer"  << *(ans.first) << *(ans.second) << std::endl;
             BidIter to = (i + 1 == end) ? begin : i + 1;
 
             seg = segment_2(*i, *(to));
             while (exactly_closer_to_segment(*t, ((t + 1) == end) ? *(begin) : *(t + 1), seg)) {
-                std::cout << "Distance to seg"  << max_distance2_point_to_segment(*t, seg) << std::endl;
                 t++;
                 if (t == end) {
                     t = begin;
                 }
             }
-            std::cout << "Distance to itog seg"  << max_distance2_point_to_segment(*t, seg) << std::endl;
-
             if (exactly_smaller_distance(*(ans.first), *(ans.second), *t, seg[0])) {
                 ans.first = t;
                 ans.second = i;
@@ -82,11 +60,8 @@ namespace cg {
                 ans.second = to;
             }
         }
-        std::cout << "Exit answer"  << *(ans.first) << *(ans.second) << std::endl;
         return ans;
     }
-
-
 
 
 
