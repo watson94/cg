@@ -75,5 +75,24 @@ namespace cg
       std::vector<point_2t<Scalar> > pts_;
    };
 
+   template <class Scalar>
+   bool operator == (contour_2t<Scalar> const & a, contour_2t<Scalar> const & b)
+   {
+       for (auto pos = a.begin(); pos != a.end(); pos++) {
+           auto it1 = pos;
+           bool is_ok = true;
+           for (auto it2 = b.begin(); it2 != b.end(); it2++) {
+               if ((*it2) != (*it1)) {
+                    is_ok = false;
+               }
+               it1 = (((it1 + 1) == a.end()) ? a.begin() : (it1 + 1));
+           }
+           if (is_ok) {
+               return true;
+           }
+       }
+       return false;
+   }
+
    typedef common::range_circulator<contour_2f> contour_circulator;
 }
