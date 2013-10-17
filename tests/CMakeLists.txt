@@ -16,7 +16,8 @@ set(SOURCES
    #orientation.cpp
    #Douglas-Peucher.cpp
    #polygon_diameter.cpp
-   visibility_graph.cpp
+   #visibility_graph.cpp
+   minkowsky_sum.cpp
    #has_intersection.cpp
    #contains.cpp
    #convex_hull.cpp
