@@ -57,9 +57,9 @@ namespace cg {
 
             face_ptr<T> face2(new face_t<T>());
 
-            edge_ptr<T> e4(new edge_t<T> (face1, vertexes[0]));
-            edge_ptr<T> e5(new edge_t<T> (face1, vertexes[2]));
-            edge_ptr<T> e6(new edge_t<T> (face1, vertexes[1]));
+            edge_ptr<T> e4(new edge_t<T> (face2, vertexes[0]));
+            edge_ptr<T> e5(new edge_t<T> (face2, vertexes[2]));
+            edge_ptr<T> e6(new edge_t<T> (face2, vertexes[1]));
             e4->next_edge = e5;
             e5->next_edge = e6;
             e6->next_edge = e4;
@@ -92,7 +92,7 @@ namespace cg {
             //внутри фэйса(добавить 3 ребра)
             auto face = find_face(p);
             std::cout << "localize in" << " ";
-            face->print();
+            //face->print();
             auto it = std::find(faces.begin(), faces.end(), face);
             faces.erase(it);
             edge_ptr<T> e = face->edge;
@@ -121,9 +121,6 @@ namespace cg {
                 faces.push_back(new_face);
                 ////e -> next
                 e = ((i == 0) ? old_e[1] : old_e[2]);
-                //debug
-                new_face->print();
-                //debug
              }
              //set twins
              for (int i = 0; i < 3; i++) {
@@ -157,26 +154,12 @@ namespace cg {
             auto v3 = edge->opp_vertex;
             auto v4 = twin->opp_vertex;
             auto face1 = edge->face;
-            auto face2 = twin->face;
-            //debug
-            std::cout << "face1 before flip: ";
-            face1->print();
+            auto face2 = twin->face;         
 
-            std::cout << "face2 before flip: ";
-            face2->print();
-            //debugOK
             auto e1 = edge->next_edge;
             auto e2 = edge->next_edge->next_edge;
             auto e3 = twin->next_edge;
             auto e4 = twin->next_edge->next_edge;
-            //debug
-            std::cout << "debug Edges" << std::endl;
-            e1->print();
-            e2->print();
-            e3->print();
-            e4->print();
-            //debug
-
 
             //first face
 
@@ -192,9 +175,6 @@ namespace cg {
             new_edge->next_edge = e2;
             face1->edge = e2;
 
-            std::cout << "first face after flip" << std::endl;
-            face1->print();
-
             //second face
             edge_ptr<T> new_twin(new edge_t<T>(face2, v2));
             e1->face = face2;
@@ -209,9 +189,6 @@ namespace cg {
             face2->edge = e1;
 
 
-            std::cout << "second face after flip" << std::endl;
-            face2->print();
-
             //twins
             new_edge->twin = new_twin;
             new_twin->twin = new_edge;
@@ -220,6 +197,7 @@ namespace cg {
         void fix_edge(edge_ptr<T> & edge) {
             if (check_Delaunay_criteria(edge)) {
                 std::cout << "Yes, I will flip now" << std::endl;
+
                 edge_ptr<T> edge_to_fix[4];
                 edge_to_fix[0] = edge->next_edge;
                 edge_to_fix[1] = edge->next_edge->next_edge;
@@ -236,6 +214,7 @@ namespace cg {
         bool check_Delaunay_criteria(edge_ptr<T> & edge) {
             face_ptr<T> face1 = edge->face;
             face_ptr<T> face2 = edge->twin->face;
+            std::cout << "Check delaunay face2";
             vertex_ptr<T> v1 = edge->opp_vertex;
             vertex_ptr<T> v2 = edge->twin->opp_vertex;
             return (face1->check_inside_circumcircle(v2) || face2->check_inside_circumcircle(v1));
@@ -245,7 +224,7 @@ namespace cg {
 
         std::vector<triangle_2t<T> >  get_triangulation() { //toDo
             std::vector<triangle_2t <T> > ans;
-            ans.push_back(triangle_2(point_2(0, 0), point_2(0, 0), point_2(0, 0)));
+            //ans.push_back(triangle_2(point_2(0, 0), point_2(0, 0), point_2(0, 0)));
             for (int i = 0; i < faces.size(); i++) {
                 if ((!faces[i]->edge->begin()->is_inf) && (!faces[i]->edge->end()->is_inf) && (!faces[i]->edge->opp_vertex->is_inf)) {
                     ans.push_back(triangle_2(faces[i]->edge->begin()->point, faces[i]->edge->end()->point, faces[i]->edge->opp_vertex->point));
@@ -253,6 +232,7 @@ namespace cg {
             }
             return ans;
         }
+
 
         std::vector<vertex_ptr <T> > vertexes;
         std::vector<face_ptr <T> > faces;

@@ -13,6 +13,14 @@
 
 
 namespace cg {
+    template <class T>
+    bool check_inside_circumcircle(point_2t<T> a, point_2t<T> b, point_2t<T> c, point_2t<T> d) {
+        double a11 = a.x - d.x, a12 = a.y - d.y, a13 = (a.x * a.x - d.x * d.x) + (a.y * a.y - d.y * d.y);
+        double a21 = b.x - d.x, a22 = b.y - d.y, a23 = (b.x * b.x - d.x * d.x) + (b.y * b.y - d.y * d.y);
+        double a31 = c.x - d.x, a32 = c.y - d.y, a33 = (c.x * c.x - d.x * d.x) + (c.y * c.y - d.y * d.y);
+        return (a11 * (a22 * a33 - a23 * a32) - a12 * (a21 * a33 - a23 * a31) + a13 * (a21 * a32 - a22 * a31)) > 0;
+    };
+
     template<class T> struct vertex_t;
     template<class T> struct edge_t;
     template<class T> struct face_t;
@@ -51,6 +59,12 @@ namespace cg {
                 std::cout << point.x << " " << point.y << std::endl;
             }
         }
+        bool operator == (vertex_t<T> & p2) {
+            if (is_inf) {
+                return p2->is_inf;
+            }
+            return point == p2->point;
+        }
 
         bool is_inf;
         point_2t<T> point;
@@ -81,6 +95,7 @@ namespace cg {
             return next_edge->next_edge->opp_vertex;
         }
         bool operator == (edge_t<T> & e2) {
+
             return (((begin() == e2.begin()) && ((end() == e2.end()))) ||
                      ((begin() == e2.end()) && ((end() == e2.begin()))) );
         }
@@ -151,16 +166,8 @@ namespace cg {
             if (v3->is_inf) {
                 return (cg::orientation(p1, p2, p) != CG_RIGHT);
             }
-            return check_inside_circumcircle(p1, p2, p3, v->point);
+            return cg::check_inside_circumcircle(p1, p2, p3, v->point);
         }
-
-        bool check_inside_circumcircle(point_2t<T> a, point_2t<T> b, point_2t<T> c, point_2t<T> d) {
-           double a11 = a.x - d.x, a12 = a.y - d.y, a13 = (a.x * a.x - d.x * d.x) + (a.y * a.y - d.y * d.y);
-           double a21 = b.x - d.x, a22 = b.y - d.y, a23 = (b.x * b.x - d.x * d.x) + (b.y * b.y - d.y * d.y);
-           double a31 = c.x - d.x, a32 = c.y - d.y, a33 = (c.x * c.x - d.x * d.x) + (c.y * c.y - d.y * d.y);
-           return (a11 * (a22 * a33 - a23 * a32) - a12 * (a21 * a33 - a23 * a31) + a13 * (a21 * a32 - a22 * a31)) > 0;
-        }
-
         edge_ptr<T> edge;
     };
 
