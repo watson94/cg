@@ -13,6 +13,7 @@
 #include <cg/io/segment.h>
 #include <cg/triangulation/Delaunay_triangulation.h>
 #include <cg/io/triangle.h>
+#include <cg/operations/intersection/segment_segment.h>
 
 using namespace util;
 
@@ -47,6 +48,34 @@ TEST(Triangulation, sample)
 
 
 
+TEST(Triangulation, one_line)
+{
+    using cg::point_2;
+    std::vector<point_2> pts = boost::assign::list_of(point_2(0, 0))
+                                                     (point_2(10, 0))
+                                                     (point_2(20, 0))
+                                                     (point_2(10, -10));
+
+    cg::cell<double> cell;
+    for (int i = 0; i < pts.size(); i++) {
+        auto ans = cell.get_triangulation();
+
+        for (const cg::triangle_2 & tr : ans) {
+            std::cout << tr[0] << tr[1] << tr[2] << std::endl;
+        }
+        cell.add_point(pts[i]);
+    }
+    std::cout << "Ans" << std::endl;
+    auto ans = cell.get_triangulation();
+
+    for (const cg::triangle_2 & tr : ans) {
+        std::cout << tr[0] << tr[1] << tr[2] << std::endl;
+    }
+    EXPECT_TRUE(true == true);
+}
+
+
+
 
 bool is_delaunay_triang(const std::vector<triangle_2> & faces, const std::vector<point_2> & pts)
 {
@@ -59,6 +88,7 @@ bool is_delaunay_triang(const std::vector<triangle_2> & faces, const std::vector
          }
    return true;
 }
+
 
 
 TEST(delaunay, uniform)
