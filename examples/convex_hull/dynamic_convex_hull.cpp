@@ -165,6 +165,7 @@ private:
 
 int main(int argc, char ** argv)
 {
+
    QApplication app(argc, argv);
    dynamic_hull_viewer<cg::naive_dynamic_hull> viewer;
    cg::visualization::run_viewer(&viewer, "dynamic convex hull");

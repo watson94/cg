@@ -89,9 +89,10 @@ namespace cg {
                 return;
             }
 
+
             //внутри фэйса(добавить 3 ребра)
             auto face = find_face(p);
-            std::cout << "localize in" << " ";
+            ////std::cout << "localize in" << " ";
             //face->print();
             auto it = std::find(faces.begin(), faces.end(), face);
             faces.erase(it);
@@ -143,7 +144,6 @@ namespace cg {
              for (int i = 0; i < 3; i++) {
                 fix_edge(old_e[i]);
              }
-
         }
 
 
@@ -196,7 +196,7 @@ namespace cg {
 
         void fix_edge(edge_ptr<T> & edge) {
             if (check_Delaunay_criteria(edge)) {
-                std::cout << "Yes, I will flip now" << std::endl;
+                ////std::cout << "Yes, I will flip now" << std::endl;
 
                 edge_ptr<T> edge_to_fix[4];
                 edge_to_fix[0] = edge->next_edge;
@@ -214,7 +214,7 @@ namespace cg {
         bool check_Delaunay_criteria(edge_ptr<T> & edge) {
             face_ptr<T> face1 = edge->face;
             face_ptr<T> face2 = edge->twin->face;
-            std::cout << "Check delaunay face2";
+            //std::cout << "Check delaunay face2";
             vertex_ptr<T> v1 = edge->opp_vertex;
             vertex_ptr<T> v2 = edge->twin->opp_vertex;
             return (face1->check_inside_circumcircle(v2) || face2->check_inside_circumcircle(v1));

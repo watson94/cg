@@ -81,6 +81,7 @@ namespace cg
 
     //distance from point to segment
     double distance(point_2 const & p, point_2 const &  q, point_2 const & x) {
+
         std::cout<< "Distance between : " << p << q << x << std::endl;
         double length = distance(p, q);
         vector_2 v1 = x - p;

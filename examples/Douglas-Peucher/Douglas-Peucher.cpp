@@ -9,10 +9,6 @@
 #include <cg/io/point.h>
 
 #include <cg/primitives/point.h>
-#include <cg/convex_hull/graham.h>
-#include <cg/convex_hull/andrew.h>
-#include <cg/convex_hull/quick_hull.h>
-#include <cg/convex_hull/jarvis.h>
 #include <cg/Douglas-Peucher/Douglas-Peucher.h>
 
 using cg::point_2f;

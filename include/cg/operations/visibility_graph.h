@@ -107,7 +107,7 @@ namespace cg
             for (const contour_2t<Scalar> & contour : obstacles) {
                 for (auto it = contour.begin(); it != contour.end(); it++) {
                     if (*it == seg[0]) {
-                        if (contour.size() > 2) {
+                        if (contour.size() > 2)  {
                             point_2t<Scalar> prev = (it == contour.begin() ? *(contour.end() - 1) : *(it - 1));
                             point_2t<Scalar> next = (it == (contour.end() - 1) ? *(contour.begin()) : *(it + 1));
                             if (cg::orientation(seg[1], *it, prev) == cg::orientation(next, *it, seg[1])) {
